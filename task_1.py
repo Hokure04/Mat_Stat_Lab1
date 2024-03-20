@@ -69,6 +69,8 @@ normalized_d = normalize(statistics_d)
 print(normalized_m)
 print(normalized_d)
 
+graphs.draw_empiric_with_theoretical_values(data)
+
 # # Пример использования функции:
 # arrays = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 # result = median_of_arrays(arrays)

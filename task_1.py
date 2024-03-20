@@ -58,6 +58,7 @@ graphs.draw_bar_chart(statistics_d, "", "")
 graphs.draw_bar_chart(statistics_median, "", "")
 
 
+
 print(statistics_m)
 print(statistics_d)
 print(statistics_median)

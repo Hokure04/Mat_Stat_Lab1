@@ -50,7 +50,9 @@ def calculate_sample_parameters(data):
 
     quantile_calculation(data)
 
-    draw_graphs(data)
+    draw_empiric_func(data, "ИМТ", "Эмпирическая функция распределения")
+    draw_bar_chart(data, "ИМТ", "Частота")
+    draw_box_diagram(data , "Все наблюдатели", "ИМТ")
 
     # print("\nF:")
     # print(f"0, при x <= {data_without_copies[0]}")
@@ -80,31 +82,40 @@ def column_values(reader, string):
         array.append(int(rows[string]))
     return array
 
-
-def draw_graphs(data):
-    # Построение графиков
-    plt.subplots_adjust(hspace=0.5)
-
-    # Эмпирическая функция распределения
+# Эмпирическая функция распределения
+def draw_empiric_func(data, x_text, y_text):
+    # plt.subplots_adjust(hspace=0.5)
     plt.figure(figsize=(8, 6))
     plt.step(sorted(data), np.arange(len(data)) / len(data))
-    plt.xlabel("ИМТ")
-    plt.ylabel("Эмпирическая функция распределения")
+    plt.xlabel(x_text)
+    plt.ylabel(y_text)
+    # plt.xlabel("ИМТ")
+    # plt.ylabel("Эмпирическая функция распределения")
     plt.show()
 
-    # Гистограмма ИМТ
+# Гистограмма
+def draw_bar_chart(data, x_text, y_text):
+    # plt.subplots_adjust(hspace=0.5)
     plt.figure(figsize=(8, 6))
     plt.hist(data, bins=20)
-    plt.xlabel("ИМТ")
-    plt.ylabel("Частота")
+    plt.xlabel(x_text)
+    plt.ylabel(y_text)
+    # plt.xlabel("ИМТ")
+    # plt.ylabel("Частота")
     plt.show()
 
-    # Box-plot
+# Box-plot
+def draw_box_diagram(data, x_text, y_text):
+    # plt.subplots_adjust(hspace=0.5)
     plt.figure(figsize=(8, 6))
     plt.boxplot(data)
-    plt.xlabel("Все наблюдатели")
-    plt.ylabel("ИМТ")
+    plt.xlabel(x_text)
+    plt.ylabel(y_text)
+    # plt.xlabel("Все наблюдатели")
+    # plt.ylabel("ИМТ")
     plt.show()
+
+
 
 
 def find_wifi_data(reader, string1, string2, availability):

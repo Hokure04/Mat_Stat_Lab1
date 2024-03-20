@@ -1,13 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 import csv
 import math
 
-# df = pd.read_csv('mobile_phones.csv', sep=',', header=0)
-# # grouped = df.groupby(["sex", "smoker"])["bmi"]
-# male_non_smokers_bmi = df[(df['wifi'] == '1')]['battery_power']
-# print(male_non_smokers_bmi)
+
 def quantile_calculation(data):
     sorted_data = sorted(data)
     position = 2 / 5 * len(sorted_data)
@@ -22,6 +18,7 @@ def quantile_calculation(data):
         quantile = (lower_value + upper_value) / 2
 
     print(f'Квантиль порядка 2/5: {quantile}')
+
 
 def calculate_sample_parameters(data):
     sample_average = sum(data) / len(data)
@@ -50,10 +47,6 @@ def calculate_sample_parameters(data):
     stat_arr = {i: sorted(data).count(i) for i in set(sorted(data))}
     data_without_copies = sorted(set(data))
     p_arr = {i: stat_arr[i] / len(data) for i in data_without_copies}
-
-    # df = pd.read_csv('mobile_phones.csv', sep=',', header=0)
-    # battery_power_quantile = df['battery_power'].quantile(0.4)
-    # print(f'Выборочный квантиль порядка 2/5: {battery_power_quantile}')
 
     quantile_calculation(data)
 
@@ -113,7 +106,8 @@ def draw_graphs(data):
     plt.ylabel("ИМТ")
     plt.show()
 
-def find_wifi_data(reader, string1, string2,  availability):
+
+def find_wifi_data(reader, string1, string2, availability):
     csvfile.seek(0)
     iterator = 0
     array = []
@@ -125,9 +119,6 @@ def find_wifi_data(reader, string1, string2,  availability):
             array.append(int(rows[string1]))
     return array
 
-# print(df['battery_power'].mean())
-# print(df['battery_power'].var())
-# print(df['battery_power'].median())
 
 with open('mobile_phones.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
@@ -152,6 +143,3 @@ with open('mobile_phones.csv', newline='') as csvfile:
     data_without_wifi = find_wifi_data(reader, 'battery_power', 'wifi', 0)
     print(data_without_wifi)
     calculate_sample_parameters(data_without_wifi)
-
-
-

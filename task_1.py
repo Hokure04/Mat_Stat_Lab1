@@ -2,7 +2,10 @@ import math
 import random
 import statistics
 
-import numpy as np
+# import numpy as np
+
+import graphs
+
 
 # def F(x):
 #     return sum(p_arr[i] for i in sorted(set(data)) if i < x)
@@ -38,6 +41,10 @@ statistics_d = [stats_d(i) for i in data]
 
 # статистика (квантиль)
 statistics_median = [statistics.median(i) for i in data]
+
+graphs.draw_bar_chart(statistics_m, "", "")
+graphs.draw_bar_chart(statistics_d, "", "")
+graphs.draw_bar_chart(statistics_median, "", "")
 
 
 print(statistics_m)

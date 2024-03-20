@@ -1,7 +1,6 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import csv
 import math
+import graphs
 
 
 def quantile_calculation(data):
@@ -50,9 +49,9 @@ def calculate_sample_parameters(data):
 
     quantile_calculation(data)
 
-    draw_empiric_func(data, "ИМТ", "Эмпирическая функция распределения")
-    draw_bar_chart(data, "ИМТ", "Частота")
-    draw_box_diagram(data , "Все наблюдатели", "ИМТ")
+    graphs.draw_empiric_func(data, "ИМТ", "Эмпирическая функция распределения")
+    graphs.draw_bar_chart(data, "ИМТ", "Частота")
+    graphs.draw_box_diagram(data , "Все наблюдатели", "ИМТ")
 
     # print("\nF:")
     # print(f"0, при x <= {data_without_copies[0]}")
@@ -81,42 +80,6 @@ def column_values(reader, string):
             continue
         array.append(int(rows[string]))
     return array
-
-# Эмпирическая функция распределения
-def draw_empiric_func(data, x_text, y_text):
-    # plt.subplots_adjust(hspace=0.5)
-    plt.figure(figsize=(8, 6))
-    plt.step(sorted(data), np.arange(len(data)) / len(data))
-    plt.xlabel(x_text)
-    plt.ylabel(y_text)
-    # plt.xlabel("ИМТ")
-    # plt.ylabel("Эмпирическая функция распределения")
-    plt.show()
-
-# Гистограмма
-def draw_bar_chart(data, x_text, y_text):
-    # plt.subplots_adjust(hspace=0.5)
-    plt.figure(figsize=(8, 6))
-    plt.hist(data, bins=20)
-    plt.xlabel(x_text)
-    plt.ylabel(y_text)
-    # plt.xlabel("ИМТ")
-    # plt.ylabel("Частота")
-    plt.show()
-
-# Box-plot
-def draw_box_diagram(data, x_text, y_text):
-    # plt.subplots_adjust(hspace=0.5)
-    plt.figure(figsize=(8, 6))
-    plt.boxplot(data)
-    plt.xlabel(x_text)
-    plt.ylabel(y_text)
-    # plt.xlabel("Все наблюдатели")
-    # plt.ylabel("ИМТ")
-    plt.show()
-
-
-
 
 def find_wifi_data(reader, string1, string2, availability):
     csvfile.seek(0)

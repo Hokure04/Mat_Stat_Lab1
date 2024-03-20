@@ -1,87 +1,137 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
 import csv
 import math
 
-with open('mobile_phones.csv', newline='') as csvfile:
-    reader = csv.DictReader(csvfile)
-    count = 0
 
-    for rows in reader:
-        count += 1
-    print(f'Всего строк {count}')
-
-    csvfile.seek(0)
-    three_g_rows = []
-    count_tree_g = 0
-    for row in reader:
-        if row['three_g'] == '1':
-            count_tree_g += 1
-            three_g_rows.append(row)
-
-    print(f'Количество телефонов, которые поддерживают 3-G: {count_tree_g}')
-
-    csvfile.seek(0)
-    dual_sim_rows = []
-    count_sim = 0
-    for row in reader:
-        if row['dual_sim'] == '1':
-            count_sim += 1
-            dual_sim_rows.append(row)
-
-    print(f'Количество телефонов, в которые можно вставить 2 сим-карты: {count_sim}')
-
-    csvfile.seek(0)
-    max_core_n = 0
-    iter = 0
-    for row in reader:
-        if iter == 0:
-            iter += 1
-            continue
-        iter += 1
-        current_n = int(row['n_cores'])
-        if current_n > max_core_n:
-            max_core_n = current_n
-
-    print(f'Максимальное количество ядер: {max_core_n}')
-
-    csvfile.seek(0)
-    n_cores_rows = []
-    for row in reader:
-        if row['n_cores'] == str(max_core_n):
-            n_cores_rows.append(row)
-
-    csvfile.seek(0)
-
-    battery_power_sum = 0
-    battery_power_rows = []
-    iter = 0
-    for rows in reader:
-        if iter == 0:
-            iter += 1
-            continue
-        battery_power_sum += int(rows['battery_power'])
-        battery_power_rows.append(int(rows['battery_power']))
-    sample_average = battery_power_sum/count
+def calculate_sample_parameters(data):
+    sample_average = sum(data) / len(data)
     print(f'Выборочное среднее: {sample_average}')
 
-    # print(sample_average)
-    # print(battery_power_rows)
-
     m_x = 0
-    for x in  battery_power_rows:
-        m_x += (x - sample_average)**2
-    s_x = m_x/(count-1)
+    for x in data:
+        m_x += (x - sample_average) ** 2
+    s_x = m_x / (len(data) - 1)
     print(f'Выборочная дисперсия: {s_x}')
     sko = math.sqrt(s_x)
     print(f'Среднее квадратичное отклонение: {sko}')
 
-    median = (count+1)/2
-    print(f'Выбораяная медиана: {median}')
+    n = len(data)
+    sorted_sample = data
+    sorted_sample.sort()
+
+    if n % 2 == 0:
+        median1 = sorted_sample[n // 2]
+        median2 = sorted_sample[n // 2 - 1]
+        median = (median1 + median2) / 2
+    else:
+        median = sorted_sample[n // 2]
+    print(f'Выборачная медиана: {median}')
+
+    stat_arr = {i: sorted(data).count(i) for i in set(sorted(data))}
+    data_without_copies = sorted(set(data))
+    p_arr = {i: stat_arr[i] / len(data) for i in data_without_copies}
+
+    df = pd.read_csv('mobile_phones.csv', sep=',', header=0)
+    battery_power_quantile = df['battery_power'].quantile(0.4)
+    print(f'Выборочный квантиль порядка 2/5: {battery_power_quantile}')
+
+    draw_graphs(data)
+
+    # print("\nF:")
+    # print(f"0, при x <= {data_without_copies[0]}")
+    #
+    # for i, val in enumerate(data_without_copies[1:]):
+    #     summ = round(sum(p_arr[j] for j in data_without_copies[:i + 1]), 3)
+    #     print(f"{summ}, при {data_without_copies[i]} < x <= {val}")
 
 
+def phone_counter(reader, string):
+    csvfile.seek(0)
+    count = 0
+    for row in reader:
+        if row[string] == '1':
+            count += 1
+    return count
 
 
+def column_values(reader, string):
+    csvfile.seek(0)
+    iterator = 0
+    array = []
+    for rows in reader:
+        if iterator == 0:
+            iterator += 1
+            continue
+        array.append(int(rows[string]))
+    return array
 
-    # for row in n_cores_rows:
-    #     print(row)
+
+def draw_graphs(data):
+    # Построение графиков
+    plt.subplots_adjust(hspace=0.5)
+
+    # Эмпирическая функция распределения
+    plt.figure(figsize=(8, 6))
+    plt.step(sorted(data), np.arange(len(data)) / len(data))
+    plt.xlabel("ИМТ")
+    plt.ylabel("Эмпирическая функция распределения")
+    plt.show()
+
+    # Гистограмма ИМТ
+    plt.figure(figsize=(8, 6))
+    plt.hist(data, bins=20)
+    plt.xlabel("ИМТ")
+    plt.ylabel("Частота")
+    plt.show()
+
+    # Box-plot
+    plt.figure(figsize=(8, 6))
+    plt.boxplot(data)
+    plt.xlabel("Все наблюдатели")
+    plt.ylabel("ИМТ")
+    plt.show()
+
+def find_wifi_data(reader, string1, string2,  availability):
+    csvfile.seek(0)
+    iterator = 0
+    array = []
+    for rows in reader:
+        if iterator == 0:
+            iterator += 1
+            continue
+        if rows[string2] == str(availability):
+            array.append(int(rows[string1]))
+    return array
+
+# print(df['battery_power'].mean())
+# print(df['battery_power'].var())
+# print(df['battery_power'].median())
+
+with open('mobile_phones.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+
+    three_g_count = phone_counter(reader, 'three_g')
+    print(f'Количество телефонов, которые поддерживают 3-G: {three_g_count}')
+
+    dual_sim_count = phone_counter(reader, 'dual_sim')
+    print(f'Количество телефонов, в которые можно вставить 2 сим-карты: {dual_sim_count}')
+
+    max_core_n = max(column_values(reader, 'n_cores'))
+    print(f'Максимальное количество ядер: {max_core_n}')
+    print()
+
+    data = column_values(reader, 'battery_power')
+    calculate_sample_parameters(data)
+    print()
+    data_with_wifi = find_wifi_data(reader, 'battery_power', 'wifi', 1)
+    print(data_with_wifi)
+    calculate_sample_parameters(data_with_wifi)
+    print()
+    data_without_wifi = find_wifi_data(reader, 'battery_power', 'wifi', 0)
+    print(data_without_wifi)
+    calculate_sample_parameters(data_without_wifi)
+
 
 

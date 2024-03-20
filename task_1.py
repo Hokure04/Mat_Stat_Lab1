@@ -31,9 +31,16 @@ def median_of_arrays(arrays):
 def generateSamples(sample_count, sample_capacity, min_value, max_value):
     return [[random.randint(min_value, max_value) for _ in range(sample_capacity)] for _ in range(sample_count)]
 
-def normalize_sample(sample, mean, variance):
-    normalized_sample = [(value - mean) / math.sqrt(variance) for value in sample]
-    return normalized_sample
+# def normalize_sample(sample, mean, variance):
+#     return [(value - mean) / math.sqrt(variance) for value in sample]
+
+def normalize(sample):
+    arr = []
+    m = stats_m(sample)
+    d = stats_d(sample)
+    for i in sample:
+        arr.append((i-m)/math.sqrt(d))
+    return arr
 
 data = generateSamples(100, 100, -10, 10)
 
@@ -56,8 +63,10 @@ print(statistics_d)
 print(statistics_median)
 
 
-normalized_data = [normalize_sample(data[i], statistics_m[i], statistics_d[i]) for i in range(len(data))]
-print(normalized_data)
+normalized_m = normalize(statistics_m)
+normalized_d = normalize(statistics_d)
+print(normalized_m)
+print(normalized_d)
 
 # # Пример использования функции:
 # arrays = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]

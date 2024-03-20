@@ -4,6 +4,24 @@ import pandas as pd
 import csv
 import math
 
+# df = pd.read_csv('mobile_phones.csv', sep=',', header=0)
+# # grouped = df.groupby(["sex", "smoker"])["bmi"]
+# male_non_smokers_bmi = df[(df['wifi'] == '1')]['battery_power']
+# print(male_non_smokers_bmi)
+def quantile_calculation(data):
+    sorted_data = sorted(data)
+    position = 2 / 5 * len(sorted_data)
+
+    if position.is_integer():
+        quantile = sorted_data[int(position) - 1]
+    else:
+        lower_index = int(position) - 1
+        upper_index = int(position)
+        lower_value = sorted_data[lower_index]
+        upper_value = sorted_data[upper_index]
+        quantile = (lower_value + upper_value) / 2
+
+    print(f'Квантиль порядка 2/5: {quantile}')
 
 def calculate_sample_parameters(data):
     sample_average = sum(data) / len(data)
@@ -33,9 +51,11 @@ def calculate_sample_parameters(data):
     data_without_copies = sorted(set(data))
     p_arr = {i: stat_arr[i] / len(data) for i in data_without_copies}
 
-    df = pd.read_csv('mobile_phones.csv', sep=',', header=0)
-    battery_power_quantile = df['battery_power'].quantile(0.4)
-    print(f'Выборочный квантиль порядка 2/5: {battery_power_quantile}')
+    # df = pd.read_csv('mobile_phones.csv', sep=',', header=0)
+    # battery_power_quantile = df['battery_power'].quantile(0.4)
+    # print(f'Выборочный квантиль порядка 2/5: {battery_power_quantile}')
+
+    quantile_calculation(data)
 
     draw_graphs(data)
 

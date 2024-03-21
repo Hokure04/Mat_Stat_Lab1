@@ -19,6 +19,22 @@ def stats_d(arr):
         shit += (i - stats_m(arr)) ** 2
     return 1 / (len(data) - 1) * shit
 
+def stats_a(arr):
+    sum = 0
+    for i in arr:
+        sum += (i - stats_m(arr)) ** 3
+    central_moment = sum/len(arr)
+    asymmetry = central_moment/math.sqrt(stats_d(arr)) ** 3
+    return asymmetry
+
+def stat_e(arr):
+    sum = 0
+    for i in arr:
+        sum += (i - stats_m(arr)) ** 4
+    central_moment = sum/len(arr)
+    excess = central_moment/math.sqrt(stats_d(arr)) ** 4 - 3
+    return excess
+
 def median_of_arrays(arrays):
     all_values = [value for array in arrays for value in array]
     all_values.sort()

@@ -15,6 +15,17 @@ def draw_empiric_func(data, x_text, y_text):
     # plt.ylabel("Эмпирическая функция распределения")
     plt.show()
 
+
+# Гистограмма
+def draw_gistogram_without_frequency(data, x_text, y_text):
+    plt.figure(figsize=(8, 6))
+    plt.hist(data, bins=20, alpha=0.6)
+    plt.xlabel(x_text)
+    plt.ylabel(y_text)
+    plt.show()
+    return
+
+
 # Гистограмма
 def draw_bar_chart(data, x_text, y_text):
     # plt.subplots_adjust(hspace=0.5)
@@ -27,8 +38,6 @@ def draw_bar_chart(data, x_text, y_text):
     plt.plot(x, p, 'k', linewidth=2)
     plt.xlabel(x_text)
     plt.ylabel(y_text)
-    # plt.xlabel("ИМТ")
-    # plt.ylabel("Частота")
     plt.show()
     return
 
@@ -40,10 +49,9 @@ def draw_box_diagram(data, x_text, y_text):
     plt.boxplot(data)
     plt.xlabel(x_text)
     plt.ylabel(y_text)
-    # plt.xlabel("Все наблюдатели")
-    # plt.ylabel("ИМТ")
     plt.show()
-    
+
+
 def draw_empiric_with_theoretical_values(sample):
     np.random.seed(0)
 
@@ -60,7 +68,8 @@ def draw_empiric_with_theoretical_values(sample):
     # Plotting
     plt.figure(figsize=(8, 6))
     for i in range(len(sample)):
-        plt.plot(x[i], y[i], marker='o', markersize=8, linestyle='None', label=f'Sample {i+1} Empirical CDF at x={x[i]}')
+        plt.plot(x[i], y[i], marker='o', markersize=8, linestyle='None',
+                 label=f'Sample {i + 1} Empirical CDF at x={x[i]}')
     plt.plot(x_theoretical, y_theoretical, linestyle='--', color='r', label='Theoretical CDF')
     plt.xlabel('X')
     plt.ylabel('Cumulative Probability')
@@ -68,6 +77,7 @@ def draw_empiric_with_theoretical_values(sample):
     plt.legend()
     plt.grid(True)
     plt.show()
+
 
 def shit(data, x_text, y_text):
     # plt.subplots_adjust(hspace=0.5)

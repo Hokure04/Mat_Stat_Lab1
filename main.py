@@ -49,16 +49,9 @@ def calculate_sample_parameters(data):
 
     quantile_calculation(data)
 
-    graphs.draw_empiric_func(data, "ИМТ", "Эмпирическая функция распределения")
-    graphs.draw_bar_chart(data, "ИМТ", "Частота")
-    graphs.draw_box_diagram(data , "Все наблюдатели", "ИМТ")
-
-    # print("\nF:")
-    # print(f"0, при x <= {data_without_copies[0]}")
-    #
-    # for i, val in enumerate(data_without_copies[1:]):
-    #     summ = round(sum(p_arr[j] for j in data_without_copies[:i + 1]), 3)
-    #     print(f"{summ}, при {data_without_copies[i]} < x <= {val}")
+    graphs.draw_empiric_func(data, "ёмкость аккумулятора", "Эмпирическая функция распределения")
+    graphs.draw_gistogram_without_frequency(data, "ёмкость аккумулятора", "Частота")
+    graphs.draw_box_diagram(data, "ёмкость аккумулятора", " ")
 
 
 def phone_counter(reader, string):
@@ -80,6 +73,7 @@ def column_values(reader, string):
             continue
         array.append(int(rows[string]))
     return array
+
 
 def find_wifi_data(reader, string1, string2, availability):
     csvfile.seek(0)

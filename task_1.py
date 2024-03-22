@@ -2,6 +2,9 @@ import math
 import random
 import statistics
 
+import numpy
+import numpy as np
+
 # import numpy as np
 
 import graphs
@@ -65,7 +68,15 @@ def normalize(sample):
     return arr
 
 
-data = generateSamples(100, 100, -10, 10)
+# data = generateSamples(100, 100, -10, 10)
+n = 1000
+lambd = 1.0
+beta = 1 / lambd
+
+data = np.random.exponential(beta, (n, n))
+
+# data = numpy.random.standard_normal((100, 100))
+# print(data)
 
 # статистика (матожидание)
 statistics_m = [stats_m(i) for i in data]
@@ -89,14 +100,14 @@ normalized_d = normalize(statistics_d)
 print(normalized_m)
 print(normalized_d)
 
-graphs.draw_empiric_with_theoretical_values(data)
+graphs.draw_empiric_with_gamma(data)
 
 # # Пример использования функции:
 # arrays = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 # result = median_of_arrays(arrays)
 # print(result)  # Выведет: 5
 #
-#
+
 # # data_without_copies = sorted(set(data))
 # print("Выборка: ", data)
 #
